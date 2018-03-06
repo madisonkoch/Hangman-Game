@@ -148,10 +148,24 @@
 //Style
     const pic = document.getElementById('pic');
     const picChange = function(){
-        if (currentRandom === 'wilf' || currentRandom === 'treadwell' || currentRandom === 'diggs'){
-            pic.src = `./assets/images/${currentRandom}.jpg`
+        if (gamesPlayed <=9){
+        pic.src = `./assets/images/${currentRandom}.png`;  
         }
-        else{
-            pic.src = `./assets/images/${currentRandom}.png`     
+        else if (!gamesPlayed <=9){
+            if (wins === 0 || wins === 1 || wins ===2){
+                pic.src = './assets/images/rookie.png';  
+            }
+            else if (wins === 3 || wins === 4){
+                pic.src = './assets/images/starter.png';  
+            }
+            else if (wins === 5 || wins === 6){
+                pic.src = './assets/images/veteran.png';  
+            }
+            else if (wins === 7 || wins === 8){
+                pic.src = './assets/images/probowler.png';  
+            }
+            else if (wins === 9 || wins === 10){
+                pic.src = './assets/images/hof.png';  
+            }
         }
     }
