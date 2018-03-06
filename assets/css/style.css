@@ -5,10 +5,10 @@
 
 /*Body*/
     body {
-        max-width: 600px;
+        max-width: 75%;
     }
     .guessWho{
-        max-width:90%;
+        max-width:100%;
     }
     .guessPic{
         width: 100%;
