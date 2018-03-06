@@ -1,11 +1,12 @@
 'use strict';
 //Variables
     let guess;
-    let guessedLetters=[];
-    let newWordRandomArrayBlank = [];
+    let guessedLetters;
+    let newWordRandomArrayBlank;
     let wins = 0;
     let losses = 0;
-    const wordBank = [
+    let gamesPlayed;
+    let wordBank = [
         "bradford",
         "diggs",
         "griffen",
@@ -14,28 +15,67 @@
         "rhodes",
         "rudolph",
         "treadwell",
+        "zimmer",
+        "wilf",
+        "gedeon",
     ];
-    const startingGuesses = 13;
-    let currentRandom = wordBank[Math.floor(Math.random() * wordBank.length)]; 
-    let wordRandomArray = Array.from(currentRandom);
-    let wordRandomArrayComp = wordRandomArray.join(" ");
-    let wordRandomArrayBlank = [];
-        for (let i = 0; i < wordRandomArray.length; i++) {
-        wordRandomArrayBlank[i] = "_";
-        }
+    let startingGuesses;
+    let currentRandom; 
+    let wordRandomArray;
+    let wordRandomArrayComp;
+    let wordRandomArrayBlank;
+    const remainingGuesses = function(){
+        (startingGuesses - guessedLetters.length);
+        document.querySelector('#guessesRemaining').innerHTML = (startingGuesses - guessedLetters.length);
+        return (startingGuesses - guessedLetters.length);
+    } 
+    const changeBlanksToLetters = function(D){ //Change correct guess from blank to letter
+        for (let i = 0; i < wordRandomArray.length; i++){
+            if (wordRandomArray[i] === D){
+                newWordRandomArrayBlank[i] = D;
+            } else if (wordRandomArray[i] !== newWordRandomArrayBlank[i])
+                newWordRandomArrayBlank[i] = "_";
+        };
+        return newWordRandomArrayBlank.join(" ");
+    };
+    const runningWordBank = function remove(wordBank, currentRandom) {
+            const index = wordBank.indexOf(currentRandom);
+            if (index !== -1) {
+                wordBank.splice(index, 1);
+            }
+            return wordBank;
+        };
 
-
-//Display in console: 
-    console.log(currentRandom); //show random word as string
-    console.log(typeof wordRandomArray, wordRandomArray);//show random word as an array
-    console.log(wordRandomArrayBlank);
-
-//Display on page at start:
-    document.querySelector('#wordBlanksHere').innerHTML = wordRandomArrayBlank.join(" ");
-    document.querySelector('#guessesRemaining').innerHTML = startingGuesses;
-    document.querySelector('#wins').innerHTML = wins;
-    document.querySelector('#losses').innerHTML = losses;
-
+//Initial State of every game
+    const initialGameState = function(){
+        startingGuesses = 14;
+        guessedLetters=[];
+        newWordRandomArrayBlank = [];
+        gamesPlayed=(wins + losses);
+        currentRandom = wordBank[Math.floor(Math.random() * wordBank.length)];
+        wordRandomArray = Array.from(currentRandom);
+        wordRandomArrayComp = wordRandomArray.join(" ");
+        wordRandomArrayBlank = [];
+            for (let i = 0; i < wordRandomArray.length; i++) {
+            wordRandomArrayBlank[i] = "_";
+            }
+        wordBank = runningWordBank(wordBank, currentRandom);
+        //Display in console: 
+            console.log(wordBank);
+            console.log(gamesPlayed);
+            console.log(currentRandom); //show random word as string
+            console.log(wordRandomArrayBlank);
+        //Display on page at start:
+            document.querySelector('#wordBlanksHere').innerHTML = wordRandomArrayBlank.join(" ");
+            document.querySelector('#guessesRemaining').innerHTML = startingGuesses;
+            document.querySelector('#wins').innerHTML = wins;
+            document.querySelector('#losses').innerHTML = losses;
+            document.querySelector('#guessesMade').innerHTML= guessedLetters.join(" ");
+            document.querySelector('#wordBlanksHere').innerHTML = changeBlanksToLetters();
+    
+            
+    }
+    initialGameState();
 
 //Keystroke loop
     document.onkeyup = function(){
@@ -44,75 +84,74 @@
             guessedLetters.push(guess)
         };
         changeBlanksToLetters(guess); //changes _ to letter
-        
-        if (remainingGuesses(guess) === 0 || changeBlanksToLetters(guess) === wordRandomArrayComp) {
-            nextGame(guess);
-        };
-
-
-    //Display in specific html element
-        displayGuesses();
-        displayNewBlanks(guess);
-
     //Display in console
         console.log(guess,' : ', changeBlanksToLetters(guess));
-    }
 
-// Functions called in Keystrok Loop
-    //Display:
-        //Guesses made:
-            const displayGuesses = function(){
-                document.querySelector('#guessesMade').innerHTML= guessedLetters.join(" ");
-            }
-        //Correct guesses + blanks:
-            const displayNewBlanks = function(F){
-                document.querySelector('#wordBlanksHere').innerHTML = changeBlanksToLetters(F);
-            }
+    //Display in specific html element
+        document.querySelector('#guessesMade').innerHTML= guessedLetters.join(" ");
+        document.querySelector('#wordBlanksHere').innerHTML = changeBlanksToLetters();
 
-    //Change Blanks to Letters
-        //Change correct guess from blank to letter
-        const changeBlanksToLetters = function(D){
-            for (let i = 0; i < wordRandomArray.length; i++){
-                if (wordRandomArray[i] === D){
-                    newWordRandomArrayBlank[i] = D;
-                } else if (wordRandomArray[i] !== newWordRandomArrayBlank[i])
-                    newWordRandomArrayBlank[i] = "_";
+    //Next game?
+        winLossUpdate(guess);
+        nextGameAlert(guess);
+        if (gamesPlayed <= 9){
+            if (remainingGuesses(guess) === 0 || changeBlanksToLetters(guess) === wordRandomArrayComp){
+                initialGameState(guess);
+            }
+        }    
+    //End?
+        gameOver();
+    //Style
+        picChange();
+}
+// Next game functions:
+    //Win Loss Update:
+        const winLossUpdate = function(G){
+            if (changeBlanksToLetters(G) === wordRandomArrayComp) {
+                wins++;
+                document.querySelector('#wins').innerHTML = wins;
+            }
+            else if (remainingGuesses(G) === 0){
+                losses++;
+                document.querySelector('#losses').innerHTML = losses;
             };
-            return newWordRandomArrayBlank.join(" ");
-        };
-
-        //Remaining Guesses
-        const remainingGuesses = function(){
-            (startingGuesses - guessedLetters.length);
-            document.querySelector('#guessesRemaining').innerHTML = (startingGuesses - guessedLetters.length);
-            return (startingGuesses - guessedLetters.length);
         }
-            
-
-//Needed for reset:
-    const wordRandom = function(){
-        wordBank[Math.floor(Math.random() * wordBank.length)];
-    }
-
-//Next Game:
-    const nextGame = function(G){
-        if (changeBlanksToLetters(G) === wordRandomArrayComp) {
-            wins++;
-            document.querySelector('#wins').innerHTML = wins;
-            reset();
+    //Win Loss Alert
+        const nextGameAlert = function(H){
+            if (changeBlanksToLetters(H) === wordRandomArrayComp) {
+                alert('SKOL! You got that one, ready for the next?');
+            }
+            else if (remainingGuesses(H) === 0){
+                alert('You fumbled that one, best of luck on the next person.');
+            };
         }
-        else if (remainingGuesses(guess) === 0){
-            losses++;
-            document.querySelector('#losses').innerHTML = losses;
-            reset();
-        };
+//Game Over
+    const gameOver = function(){
+        if (gamesPlayed === 10){
+            if (wins === 0 || wins === 1 || wins === 2){
+                alert(`${wins} correct`);
+            }
+            else if (wins === 3 || wins === 4){
+                alert(`${wins} correct`);
+            }
+            else if (wins === 5 || wins === 6){
+                alert(`${wins} correct`);
+            }
+            else if (wins === 7 || wins === 8){
+                alert(`${wins} correct`);
+            }
+            else {
+                alert(`${wins} correct`);
+            }
+        }
     }
-
-//Global Reset
-    const reset = function(){
-        //starting guesses count
-        //guessed letters
-        //new random word
-        //reset blanks
-
+//Style
+    const pic = document.getElementById('pic');
+    const picChange = function(){
+        if (currentRandom === 'wilf' || currentRandom === 'treadwell' || currentRandom === 'diggs'){
+            pic.src = `./assets/images/${currentRandom}.jpg`
+        }
+        else{
+            pic.src = `./assets/images/${currentRandom}.png`     
+        }
     }

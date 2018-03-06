@@ -5,35 +5,43 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Document</title>
+
+<!-- Style -->
+  <link rel="stylesheet" href="./assets/css/style.css">
+
 </head>
 <body>
-  <h1>Temporary Header</h1>
+  <h1>ARE YOU EVEN A FAN?</h1>
+  <p id="insturctions">Guess the most Minnesota Vikings Football player/staff last names correctly to see what kind of fan you are!</p>
   <div>
-    <h3 id="insturctions"></h3>
-
-    <hr> <!--dashed line?-->
-
+    <!--During Game -->
+    <div class="guessWho">
+      <img class="guessPic"id="pic" src="./assets/images/vwo.jpeg" alt="vwo">
+    </div>
+    <div>  
     <h3>Wins:</h3>
-    <p id="wins"></p>
+      <p id="wins"></p>
 
-    <h3>Losses:</h3>
-    <p id="losses"></p>
+      <h3>Losses:</h3>
+      <p id="losses"></p>
 
 
-    <hr>
+      <hr>
 
-    <p id="wordBlanksHere"></p>
+      <p id="wordBlanksHere"></p>
 
-    <hr>
-    <h3>Letters Guessed:</h3>
-    <p id="guessesMade"></p>
-    
-    <hr>
-    <h3>Guesses Remaining:</h3>
-    <p id="guessesRemaining"></p>
+      <hr>
+      <h3>Letters Guessed:</h3>
+      <p id="guessesMade"></p>
+      
+      <hr>
+      <h3>Guesses Remaining:</h3>
+      <p id="guessesRemaining"></p>
+    </div>
+    <!-- Game Over -->
 
   </div>
 
-  <script src="./assets/javascript/game2.js"></script>
+  <script src="./assets/javascript/game.js"></script>
 </body>
 </html>
