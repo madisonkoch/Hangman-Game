@@ -60,6 +60,7 @@
             wordRandomArrayBlank[i] = "_";
             }
         wordBank = runningWordBank(wordBank, currentRandom);
+
         //Display in console: 
             console.log(wordBank);
             console.log(gamesPlayed);
@@ -99,10 +100,10 @@
                 initialGameState(guess);
             }
         }    
-    //End?
-        gameOver();
     //Style
+        statDisplay();
         picChange();
+        
 }
 // Next game functions:
     //Win Loss Update:
@@ -125,47 +126,55 @@
                 alert('You fumbled that one, best of luck on the next person.');
             };
         }
-//Game Over
-    const gameOver = function(){
-        if (gamesPlayed === 10){
-            if (wins === 0 || wins === 1 || wins === 2){
-                alert(`${wins} correct`);
-            }
-            else if (wins === 3 || wins === 4){
-                alert(`${wins} correct`);
-            }
-            else if (wins === 5 || wins === 6){
-                alert(`${wins} correct`);
-            }
-            else if (wins === 7 || wins === 8){
-                alert(`${wins} correct`);
-            }
-            else {
-                alert(`${wins} correct`);
-            }
-        }
-    }
 //Style
     const pic = document.getElementById('pic');
+    const gr = document.getElementById('guessesRemaining');
+    const gm = document.getElementById('guessesMade');
+    const wbh = document.getElementById('wordBlanksHere');
+
+
     const picChange = function(){
         if (gamesPlayed <=9){
         pic.src = `./assets/images/${currentRandom}.png`;  
         }
         else if (!gamesPlayed <=9){
             if (wins === 0 || wins === 1 || wins ===2){
-                pic.src = './assets/images/rookie.png';  
+                pic.src = './assets/images/rookie.png';
+                gr.style.visibility = 'hidden';
+                gm.style.visibility = 'hidden';
+                wbh.style.visibility = 'hidden';
             }
             else if (wins === 3 || wins === 4){
-                pic.src = './assets/images/starter.png';  
+                pic.src = './assets/images/starter.png';
+                gr.style.visibility = 'hidden'; 
+                wbh.style.visibility = 'hidden';
+                gm.style.visibility = 'hidden';
             }
             else if (wins === 5 || wins === 6){
-                pic.src = './assets/images/veteran.png';  
+                pic.src = './assets/images/veteran.png'; 
+                gm.style.visibility = 'hidden';
+                gr.style.visibility = 'hidden'; 
+                wbh.style.visibility = 'hidden';
             }
             else if (wins === 7 || wins === 8){
-                pic.src = './assets/images/probowler.png';  
+                pic.src = './assets/images/probowler.png'; 
+                gm.style.visibility = 'hidden';
+                gr.style.visibility = 'hidden'; 
+                wbh.style.visibility = 'hidden';
             }
             else if (wins === 9 || wins === 10){
                 pic.src = './assets/images/hof.png';  
+                gm.style.visibility = 'hidden';
+                gr.style.visibility = 'hidden';
+                wbh.style.visibility = 'hidden';
+            }
+        }
+    }
+    const statDisplay = function(){
+        const stats = document.getElementsByClassName('stats');
+        for (let i = 0; i < stats.length; i++){
+            if (pic.src !== './assets/images/vwo.png') {
+                stats[i].style.visibility = 'visible';
             }
         }
     }

@@ -1,15 +1,54 @@
-@import url(./css/assets/reset.css);
+@import url(./reset.css);
 
 /*Global*/
-    html{background-image: url(../images/geometric.jpg);}
+    html{background: white;}
 
 /*Body*/
     body {
-        max-width: 75%;
+        max-width: 690px;
+        height: fit-content;
+        margin: auto;
+        margin-top: 15%;
     }
     .guessWho{
         max-width:100%;
+        height: fit-content;
     }
     .guessPic{
         width: 100%;
+        position: relative;
     }
+
+    p{
+        position:relative;
+        font-size: 1.3rem;
+        font-family: 'Montserrat', sans-serif;
+        color: white;
+        margin:0;
+        width:fit-content;
+        visibility: hidden;
+    }    
+    #wins {
+        position: relative;
+        left: 18%;
+        bottom: 14.55%;
+    }
+    #losses{
+        left: 21%;
+        bottom: 13.45%;
+    }
+    #guessesRemaining{
+        left: 30%;
+        bottom: 15.3%;
+    }
+    #guessesMade{
+        left:-30%;
+        bottom:19%;
+        float:right;
+    }
+    #wordBlanksHere{
+        left: 60%;
+        bottom:20.5%;
+        font-size: 1.5rem;
+    }
+
