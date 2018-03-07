@@ -81,7 +81,9 @@
 //Keystroke loop
     document.onkeyup = function(){
         const guess = event.key; //assign each keystrok to the variable guess
-        if (!guessedLetters.includes(guess)){  //if letter has already been guessed don't display put it in guessedLetters again (display code below).
+        const abc = "abcdefghijklmnopqrstuvwxyz";
+        const abcArray = Array.from(abc);
+        if (!guessedLetters.includes(guess) && abcArray.includes(guess)){  //if letter has already been guessed don't display put it in guessedLetters again (display code below).
             guessedLetters.push(guess)
         };
         changeBlanksToLetters(guess); //changes _ to letter
